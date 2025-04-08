@@ -1,7 +1,17 @@
 steps:
-- name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', 'gcr.io/$project-coret2an/cloud-run-demo', '.']
-- name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'gcr.io/$project-coret2an/cloud-run-demo']
-- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-  args: ['gcloud', 'run', 'deploy', 'cloud-run-demo', '--image', 'gcr.io/$project-coret2an/cloud-run-demo', '--region', 'us-central1', '--platform', 'managed', '--allow-unauthenticated']
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/$project-coret2an/cloud-run-demo', '.']
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$project-coret2an/cloud-run-demo']
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args: [
+      'run', 'deploy', 'cloud-run-demo',
+      '--image', 'gcr.io/$project-coret2an/cloud-run-demo',
+      '--region', 'us-central1',
+      '--platform', 'managed',
+      '--allow-unauthenticated'
+    ]
+
+images:
+  - gcr.io/$project-coret2an/cloud-run-demo
